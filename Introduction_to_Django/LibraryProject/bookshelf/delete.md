@@ -1,3 +1,4 @@
 ##Deleting the book
 **Command:**
-```Book.objects.delete()```
+``` book= Book.objects.get(title="Nineteen Eighty-Four")
+book.delete() ```
