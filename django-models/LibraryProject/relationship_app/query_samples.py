@@ -1,6 +1,6 @@
 from relationship_app.models import Book, Author, Librarian, Library
 
-author = Author.objects.get(name='JohnDoe')
+author = Author.objects.get(name=author_name)
 for book in author.books.all().values():
     print(book)
 
