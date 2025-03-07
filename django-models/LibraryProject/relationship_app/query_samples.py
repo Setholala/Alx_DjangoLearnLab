@@ -4,7 +4,7 @@ author = Author.objects.get(name=author_name)
 for book in author.books.all().values():
     print(book)
 
-books = Book.objects.all()
+books = Book.objects.filter(author=author)
 print(books)
 
 library = Library.objects.get(name=library_name)
