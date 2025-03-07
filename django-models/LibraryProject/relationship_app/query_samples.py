@@ -7,5 +7,5 @@ for book in author.books.all().values():
 books = Book.objects.filter(author=author)
 print(books)
 
-library = Library.objects.get(name=library_name)
-print(library.librarian.name)
+librarian = Librarian.objects.get(name=librarian_name)
+print(librarian.library.name)
