@@ -9,5 +9,5 @@ print(books)
 
 library = Library.objects.get(name=library_name)
 
-librarian = Librarian.objects.get(name=librarian_name)
+librarian = Librarian.objects.get(name=
 print(librarian.library.name)
