@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
-from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
@@ -16,12 +15,7 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
 
-class RegisterView(LoginView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('register')
-    template_name = 'relationship_app/registration.html'
-
-def custom_login_view(request):
+def register(request):
     error_message = None
 
     
