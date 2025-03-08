@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
+from django.contrib.auth import login, authenticate
 from .models import Book
 from .models import Library
 
@@ -16,8 +16,26 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
 
-class RegisterView(CreateView):
+class RegisterView(LoginView):
     form_class = UserCreationForm
-    success_url = reverse_lazy()
-    template_name ='relationship_app/register.html'
+    success_url = reverse_lazy('register')
+    template_name = 'relationship_app/registration.html'
 
+def custom_login_view(request):
+    error_message = None
+
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect('home')
+        else:
+            error_message = "Invalid username or password"
+        
+    return render(request, 'relationship_app/login.html', {'error_message' : error_message})
+
+        
