@@ -15,7 +15,7 @@ class LibraryDetailView(DetailView):
     template_name = 'relationship_app/library_detail.html'
     model = Library
 
-def register(request):
+def custom_login_view(request):
     error_message = None
 
     
@@ -33,3 +33,13 @@ def register(request):
     return render(request, 'relationship_app/login.html', {'error_message' : error_message})
 
         
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
