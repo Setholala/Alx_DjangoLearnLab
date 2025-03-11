@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from .models import Book
 from .models import Library
+from .utils import role_required
 
 # Create your views here.
 def list_books(request):
@@ -43,3 +44,15 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+
+@role_required('Admin')
+def admin_view(request):
+    return render(request, 'admin_dashboard.html')
+
+@role_required('Librarian')
+def librarian_view(request):
+    return render(request, 'librarian_dashboard.html')
+@role_required ('Member')
+def member_view(request):
+    return render(request, 'member_dashboard.html')
