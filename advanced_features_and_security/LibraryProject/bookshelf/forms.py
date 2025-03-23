@@ -12,3 +12,13 @@ class BookForm(forms.ModelForm):
         if not title.strip():
             raise forms.ValidationError("Title cannot be empty.")
         return title
+
+class ExampleForm(forms.Form):
+    name = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(required=True)
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name.strip():
+            raise forms.ValidationError("Name cannot be empty.")
+        return name
