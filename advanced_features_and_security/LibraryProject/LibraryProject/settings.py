@@ -23,9 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h7jfxh$y(e+&q_wq0b4c0&gwv9v@a@6f4%n$@%qb*-0uk9iat#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
+
+# Secure Cookies
+CSRF_COOKIE_SECURE = True  # Send CSRF cookies only over HTTPS
+SESSION_COOKIE_SECURE = True  # Send session cookies only over HTTPS
+
+# XSS and Clickjacking Protections
+SECURE_BROWSER_XSS_FILTER = True  # Enable XSS protection in browsers
+X_FRAME_OPTIONS = 'DENY'  # Prevent Clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-type sniffing
 
 
 # Application definition
@@ -41,6 +50,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,6 +84,11 @@ WSGI_APPLICATION = 'LibraryProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'cdnjs.cloudflare.com')
+CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
+CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -85,6 +100,25 @@ DATABASES = {
     }
 }
 
+# Logging for Security Events
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'security.log',
+        },
+    },
+    'loggers': {
+        'django.security': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
