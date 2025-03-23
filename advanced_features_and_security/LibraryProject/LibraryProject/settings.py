@@ -36,6 +36,12 @@ SECURE_BROWSER_XSS_FILTER = True  # Enable XSS protection in browsers
 X_FRAME_OPTIONS = 'DENY'  # Prevent Clickjacking
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-type sniffing
 
+# Security settings for HTTPS enforcement
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP traffic to HTTPS
+SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security (HSTS) for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading of HSTS for better enforcement
+
 
 # Application definition
 
