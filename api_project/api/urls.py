@@ -1,11 +1,16 @@
+# This endpoint allows users to obtain a token by POSTing their username and password.
+# Example: POST to /api/api-token-auth/ with form data {username, password}
+
 from django.urls import path, include
-form rest_framework.routers import  DefaultRouters 
-from .views import BookList
+from rest_framework.routers import  DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
+from .views import BookList, BookViewSet
 
 router = DefaultRouter()
 router.register(r'books_all', BookViewSet, basename='book_all')
 
 urlpatterns = [
     path('books/', BookList.as_view(), name='book-list'),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('', include(router.urls)),
 ]
