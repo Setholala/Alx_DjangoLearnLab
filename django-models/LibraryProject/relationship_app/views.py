@@ -92,14 +92,17 @@ def librarian_check(user):
 def member_check(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
+@login_required
 @user_passes_test(admin_check)
 def admin_view(request):
     return render(request, 'admin_view.html')
 
+@login_required
 @user_passes_test(librarian_check)
 def librarian_view(request):
     return render(request, 'librarian_view.html')
 
+@login_required
 @user_passes_test(member_check)
 def member_view(request):
     return render(request, 'member_view.html')
